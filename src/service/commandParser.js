@@ -9,7 +9,7 @@ class CommandParser {
 	}
 
 	parse() {
-		const messageText = this.message.content.slice(COMMAND_PREFIX.length);
+		const messageText = this.message.content.slice(COMMAND_PREFIX.length).trim();
 		const args = messageText.split(' ');
 		const commandName = args[0];
 		console.log('Command received: ' + commandName)
