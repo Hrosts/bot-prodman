@@ -1,16 +1,26 @@
 const commandRepository = require('../repository/commandRepository.js');
+const settings = require('../../settings.json');
+const COMMAND_PREFIX = settings.COMMAND_PREFIX;
 
 class CommandParser {
 
-	constructor(command) {
-		this.command = command;
+	constructor(message) {
+		this.message = message;
 	}
 
 	parse() {
-		const args = this.command.split(' ').filter((str) => str != ' ');
+		const messageText = this.message.content.slice(COMMAND_PREFIX.length);
+		const args = messageText.split(' ');
 		const commandName = args[0];
-		let command = commandRepository[commandName];
-		return command && typeof command == 'function' ? command(args) : null;
+		console.log('Command received: ' + commandName)
+		const commandConstructor = commandRepository[commandName];
+		var parsedMessage = {
+			message: this.message,
+			text: messageText,
+			command: commandName,
+			args: args
+		}
+		return new commandConstructor(parsedMessage);
 	}
 }
 

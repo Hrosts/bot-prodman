@@ -11,9 +11,8 @@ client.on('ready', () => {
 client.on('message', message => {
 
 	if (message.content.startsWith(COMMAND_PREFIX)) {
-		const messageText = message.content.slice(COMMAND_PREFIX.length);
-		const answer = new commandParser(messageText).parse() || 'No command found';
-		message.channel.send(answer);
+		const command = new commandParser(message).parse();
+		command.execute();
 	}
 });
 
